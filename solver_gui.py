@@ -5,6 +5,8 @@ from class_square import Square
 
 # TODO
 # Move through tiles with arrowkeys
+# Use entry.bind
+# create function that changes entry widget accordingly
 
 # TODO
 # Change item colours to look nicer
@@ -47,7 +49,7 @@ def solve(grid, layout, root):
         square.change_num(num)
         cordinates = square.return_cordinates()
         change_num(cordinates[0], cordinates[1], num, layout)
-        flash_colour(cordinates[0], cordinates[1], layout, root, "green")
+        change_colour(cordinates[0], cordinates[1], layout, root, "green")
         root.update()
 
         if grid_full(grid):
@@ -63,7 +65,7 @@ def solve(grid, layout, root):
         else:
             square.change_num(0)
             change_num(cordinates[0], cordinates[1], 0, layout)
-            flash_colour(cordinates[0], cordinates[1], layout, root, "red")
+            change_colour(cordinates[0], cordinates[1], layout, root, "red")
             root.update()
 
 
@@ -156,7 +158,7 @@ def change_num(y, x, new, layout):
     layout[y][x].insert(-1, new)
 
 
-def flash_colour(y, x, layout, root, color):
+def change_colour(y, x, layout, root, color):
     layout[y][x].config(bg=color)
     root.update()
     time.sleep(0.04)
@@ -198,11 +200,18 @@ def empty_board(layout):
             reset_colour(i, j, layout)
 
 
+def fill_with_example(example, layout):
+    for i in range(9):
+        for j in range(9):
+            change_num(i, j, str(example[i][j]), layout)
+            reset_colour(i, j, layout)
+
+
 def main():
     root = tk.Tk()
     root.title("SUDOKU SOLVER")
     root.config(bg="#49637A")
-    root.geometry("360x383")
+    root.geometry("360x425")
     root.resizable(0, 0)
 
     layout = create_empty_grid(root)
@@ -218,11 +227,26 @@ def main():
                       command=lambda: empty_board(layout))
     empty.grid(row=0, column=8, columnspan=4, sticky='e')
 
+
     for c in range(9):
         for r in range(9):
             reset_colour(c, r, layout)
-
             layout[c][r].grid(row=c + 1, column=r + 1, padx=1, pady=1)
+
+    example = [[0, 0, 0, 3, 0, 7, 0, 0, 0],
+               [0, 0, 5, 0, 0, 9, 0, 7, 0],
+               [0, 0, 0, 0, 0, 4, 0, 0, 2],
+               [0, 8, 0, 0, 0, 0, 0, 2, 0],
+               [0, 0, 0, 0, 0, 0, 6, 0, 0],
+               [4, 1, 0, 8, 0, 0, 0, 0, 5],
+               [6, 0, 9, 0, 0, 1, 0, 0, 4],
+               [7, 0, 0, 2, 0, 0, 0, 0, 0],
+               [8, 3, 0, 0, 9, 0, 1, 0, 0]]
+
+    example_hard_btn = tk.Button(root, text="Example sudoku", bg="#497A5D", font=('Verdana', 14),
+                                 command=lambda: fill_with_example(example, layout))
+
+    example_hard_btn.grid(row=12, column=0, columnspan=6, sticky="w")
 
     root.mainloop()
 
