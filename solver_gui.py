@@ -110,9 +110,10 @@ def least_possibilities(grid):
     return the_square
 
 
-def solver(layout, root, info_label, empty_btn, start_button):
+def solver(layout, root, info_label, empty_btn, start_button, example_btn):
     empty_btn.config(state='disabled')
     start_button.config(state='disabled')
+    example_btn.config(state='disabled')
 
     grid = []
     if get_values_from_gui(grid, layout, info_label):
@@ -138,6 +139,7 @@ def solver(layout, root, info_label, empty_btn, start_button):
 
     empty_btn.config(state='normal')
     start_button.config(state='normal')
+    example_btn.config(state='normal')
 
 
 def create_empty_grid(root):
@@ -167,7 +169,7 @@ def flash_colour(y, x, layout, root, color):
 def change_colour(y, x, layout, root, color):
     layout[y][x].config(bg=color)
     root.update()
-    time.sleep(0.04)
+    time.sleep(0.03)
 
 
 def reset_colour(y, x, layout):
@@ -221,7 +223,7 @@ def main():
     layout = create_empty_grid(root)
 
     start_button = tk.Button(root, text="START", bg="#497A5D", font=('Verdana', 14),
-                             command=lambda: solver(layout, root, info_label, empty, start_button))
+                             command=lambda: solver(layout, root, info_label, empty, start_button, example_hard_btn))
     start_button.grid(row=0, column=0, columnspan=4, sticky='w', padx=1, pady=1)
 
     info_label = tk.Label(text="press start", font=('Verdana', 12), bg='#49637A')
@@ -237,15 +239,15 @@ def main():
             reset_colour(c, r, layout)
             layout[c][r].grid(row=c + 1, column=r + 1, padx=1, pady=1)
 
-    example = [[0, 0, 0, 3, 0, 7, 0, 0, 0],
-               [0, 0, 5, 0, 0, 9, 0, 7, 0],
-               [0, 0, 0, 0, 0, 4, 0, 0, 2],
-               [0, 8, 0, 0, 0, 0, 0, 2, 0],
-               [0, 0, 0, 0, 0, 0, 6, 0, 0],
-               [4, 1, 0, 8, 0, 0, 0, 0, 5],
-               [6, 0, 9, 0, 0, 1, 0, 0, 4],
-               [7, 0, 0, 2, 0, 0, 0, 0, 0],
-               [8, 3, 0, 0, 9, 0, 1, 0, 0]]
+    example = [[0, 7, 8, 0, 4, 0, 0, 9, 0],
+               [0, 0, 0, 0, 0, 2, 0, 5, 4],
+               [9, 0, 0, 0, 0, 3, 1, 0, 0],
+               [7, 0, 0, 0, 0, 8, 5, 0, 0],
+               [0, 0, 0, 0, 1, 0, 0, 0, 3],
+               [0, 5, 0, 0, 0, 0, 0, 0, 0],
+               [8, 0, 0, 3, 9, 0, 0, 0, 0],
+               [3, 0, 0, 8, 0, 0, 2, 0, 6],
+               [0, 6, 7, 0, 2, 0, 0, 0, 0]]
 
     example_hard_btn = tk.Button(root, text="Example sudoku", bg="#497A5D", font=('Verdana', 14),
                                  command=lambda: fill_with_example(example, layout))
