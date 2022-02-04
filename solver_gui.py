@@ -65,7 +65,7 @@ def solve(grid, layout, root):
         else:
             square.change_num(0)
             change_num(cordinates[0], cordinates[1], 0, layout)
-            change_colour(cordinates[0], cordinates[1], layout, root, "red")
+            flash_colour(cordinates[0], cordinates[1], layout, root, "red")
             root.update()
 
 
@@ -158,12 +158,16 @@ def change_num(y, x, new, layout):
     layout[y][x].insert(-1, new)
 
 
+def flash_colour(y, x, layout, root, color):
+    change_colour(y, x, layout, root, color)
+
+    reset_colour(y, x, layout)
+
+
 def change_colour(y, x, layout, root, color):
     layout[y][x].config(bg=color)
     root.update()
     time.sleep(0.04)
-
-    reset_colour(y, x, layout)
 
 
 def reset_colour(y, x, layout):
