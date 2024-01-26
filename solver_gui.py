@@ -217,7 +217,6 @@ def main():
     root = tk.Tk()
     root.title("SUDOKU SOLVER")
     root.config(bg="#49637A")
-    root.geometry("360x425")
     root.resizable(0, 0)
 
     layout = create_empty_grid(root)
